@@ -64,7 +64,9 @@ module OrangeData
             position[:tax] = tax_types[position[:tax]] || position[:tax]
             position[:payment_method_type] = payment_method_types[position[:payment_method_type]] || position[:payment_method_type]
             position[:payment_subject_type] = payment_subject_types[position[:payment_subject_type]] || position[:payment_subject_type]
-            position[:nomenclature_code] = position[:nomenclature_code] ? Base64.decode64(position[:nomenclature_code]) : nil
+            if position.keys.include?(:nomenclature_code)
+              position[:nomenclature_code] = position[:nomenclature_code] ? Base64.decode64(position[:nomenclature_code]) : nil
+            end
           end
         end
 
