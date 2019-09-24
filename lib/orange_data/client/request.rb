@@ -6,6 +6,7 @@ module OrangeData
       include OrangeData::PipelineMixin
 
       def initialize(payload, connection, api_method, api_path)
+        puts payload
         @context = {
           payload: payload,
           connection: connection,
@@ -32,7 +33,15 @@ module OrangeData
       end
 
       def parse(response)
-        response.success? ? Succ.new(response.body) : Fail.new(response.body[:errors])
+        if response.success? 
+          Succ.new(response.body) 
+        else
+          if response.body.class.to_s == 'String'
+            Fail.new(response.body)
+          else
+            Fail.new(response.body[:errors])
+          end
+        end
       end
     end
   end

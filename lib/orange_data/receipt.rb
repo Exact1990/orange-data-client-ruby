@@ -16,15 +16,18 @@ module OrangeData
     end
 
     def add_position(quantity:, price:, text:, tax: nil, payment_method_type: nil, payment_subject_type: nil, nomenclature_code: nil)
-      payload.dig(:content, :positions) << {
+      position = {
         quantity: quantity,
         price: price,
         tax: tax || @config.tax,
         text: text,
         payment_method_type: payment_method_type || @config.payment_method_type,
-        payment_subject_type: payment_subject_type || @config.payment_subject_type,
-        nomenclature_code: nomenclature_code
+        payment_subject_type: payment_subject_type || @config.payment_subject_type
       }
+      if nomenclature_code.present?
+        position[nomenclature_code] = nomenclature_code
+      end
+      payload.dig(:content, :positions) << position
 
       self
     end
