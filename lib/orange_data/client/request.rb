@@ -37,7 +37,7 @@ module OrangeData
           Succ.new(response.body) 
         else
           if response.body.class.to_s == 'String'
-            Fail.new(response.body)
+            Fail.new("body: #{response.body}; status: #{response.status}")
           else
             Fail.new(response.body[:errors])
           end
